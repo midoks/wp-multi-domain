@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>添加</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="/wp-content/plugins/wp-multi-domain/assets/layui/css/layui.css">
+	<script type="text/javascript" src="/wp-content/plugins/wp-multi-domain/assets/layui/layui.js"></script>
+</head>
+<body>
+<div>
+	<!--form表单-->
+	<form class="layui-form layui-form-pane">
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">主题/外观</label>
+			<div class="layui-input-block">
+				<select name="theme" id="type_theme">
+					<option value="{$THEME}">{$THEME}</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<label class="layui-form-label">平台</label>
+			<div class="layui-input-block">
+				<select name="platform" id="type_platform">
+					<option value="all">全平台</option>
+					<option value="mobile">移动端</option>
+					<option value="pc">PC</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="layui-form-item layui-form-text">
+			<label class="layui-form-label">绑定域名</label>
+			<div class="layui-input-block">
+				<textarea name="domain" placeholder="请输入域名" class="layui-textarea">{$DOMAIN}</textarea>
+			</div>
+			<div class="layui-form-mid layui-word-aux">【用","分割，支持多个域名】</div>
+		</div>
+		<input type="hidden" name="id" value="{$ID}"/>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit lay-filter="add">立即提交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script>
+layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel', 'upload', 'element', 'slider'],  function () {
+	let $ = layui.jquery;
+	let form = layui.form;
+
+
+	form.on("submit(add)", function (data) {
+		$.post("/wp-json/wp-multi-domain/v1/add_item",data.field, function(response){
+			layer.msg('设置成功!');
+			if (response['code'] == 0){
+				setTimeout(function(){
+					parent.location.reload(true)
+				},2000);
+			} else {
+				layer.msg(response['msg']);
+			}
+
+		});
+		return false;
+	});
+
+
+	function renderPlatform(t){
+		$('#type_platform').find("option[value='"+t+"']").attr("selected",true);
+		form.render('select');
+	}
+	renderPlatform('{$PLATFORM}');
+///
+});
+</script>
+</body>
+</html>
