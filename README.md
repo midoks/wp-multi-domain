@@ -9,4 +9,4 @@ WP插件【支持不同的域名展示不同的主题。】
 
 
 ### 后台截图
-[![最新版本截图](/main/screenshot-1.png)](/main/screenshot-1.png)
+[![最新版本截图](/screenshot-1.png)](/screenshot-1.png)
